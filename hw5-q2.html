@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Find the volume</title>
+</head> 
+<body style="font-family: Arial">
+    <h1>This web site will find the volume for a Cylinder, Sphere or Cone </h1>
+    <br>Select the units (English or SI)<br>
+    <input type="radio" name="units" value = "English" onclick="get(this.value)">English</input>
+    <input type="radio" name="units" value = "SI" onclick="get(this.value)">SI</input><br>
+    Select the shape
+    <select id="shape1" onchange="getShape(this[selectedIndex].value);">
+        <option value = "Cylinder" onclick="getShape(this.value)">Cylinder</option>    
+        <option value = "Sphere" onclick="getShape(this.value)">Sphere</option>
+        <option value = "Cone" onclick="getShape(this.value)">Cone</option>
+    </select><br>
+
+
+    <form method="post">
+    Enter the radius
+    <input type="text" id="radius"></input>
+    <br>For the cylinder and cone, Enter the height
+    <input type="text" id="height"></input>
+    </form>
+
+
+    <br>
+    <input type="button" value="reset the form" onClick="reset()"></input>
+    <br>
+    <h2>Results</h2>
+
+    You selected to use <span id = "unit"></span> units
+    <br>
+    You selected to find the values for a <span id = "shape"></span> shape
+    <br>
+    <table id="display" border="1">
+        <tr>
+            <td><strong>Shape</strong></td> <td><strong>Radius</strong></td> <td><strong>Height</strong></td> <td><strong>Volume</strong></td>
+        </tr>
+    </table>
+    <br>
+    <input type="button" value="Click to calculate the results" onclick="calculate()"></input>
+</body>
+
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    function reset()
+    {
+        var v = document.forms[0].elements;
+        for(var i = 0; i<v.length; i++)
+        {
+            if(v[i].type == "text")
+            {
+                v[i].value="";
+            }
+        }
+         $("#display").empty();
+        var tr0 = "<tr> <td><strong>Shape</strong></td> <td><strong>Radius</strong></td> <td><strong>Height</strong></td> <td><strong>Volume</strong></td></tr>"
+        $("#display").append(tr0);
+
+    }
+
+
+    function get(value)
+    {
+        $("#unit").html(value);
+
+    }
+    
+    function getShape(val)
+    {
+        $("#shape").html(val);
+    }
+
+    function calculate()
+    {
+        var shape = $("#shape1").val();
+        var radius = $("#radius").val();
+        var height = $("#height").val();
+        var unit = $("#unit").text();
+
+        $("#display").empty();
+        var tr = "<tr> <td><strong>Shape</strong></td> <td><strong>Radius</strong></td> <td><strong>Height</strong></td> <td><strong>Volume</strong></td></tr>"
+        $("#display").append(tr);
+        if(unit == "English")
+        {
+            var tr = "<tr><td> </td> <td>" + "<strong>(ft)</strong>" + "</td> <td>" + "<strong>(ft)</strong>" + "</td> <td>" + "<strong>(ft^3)</strong>" + "</td></tr>";
+            $("#display").append(tr);
+        }
+        else
+        {
+            var tr = "<tr><td> </td> <td>" + "<strong>(cm)<strong>" + "</td> <td>" + "<strong>(cm)</strong>" + "</td> <td>" + "<strong>(cm^3)</strong>" + "</td></tr>";
+            $("#display").append(tr);
+        }
+        if(shape == "Cylinder")
+        {       
+            var volume = 3.14 * radius * radius *height;
+        }
+        else if(shape == "Sphere")
+        {
+            var volume = 4/3 * 3.14 * radius * radius * radius;
+            height = "";
+        }
+        else
+        {
+            var volume = 1/3 * 3.14 * radius *radius *height;
+        }
+        if(isNaN(radius) || isNaN(height))
+        {
+            alert("input invalid!");
+        }
+        else
+        {
+            var tr =  "<tr><td>" + shape + "</td> <td>" + radius + "</td> <td>" + height + "</td> <td>" + volume + "</td></tr>";
+            $("#display").append(tr);
+        }
+        
+    }
+
+
+</script>
+
+
+</html>
